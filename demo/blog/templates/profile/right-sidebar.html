@@ -1,0 +1,17 @@
+<div class="border right-side bg-white rounded">
+    <h5 class="text-center m-0 py-2 border-bottom">Меню</h5>
+    <ul class="p-3">
+        <a href="{% url 'profile' %}" >
+            <li class="{% if request.path == '/profile/' %} bg-light_ {% endif %} my-2 text-dark px-2 py-1 border rounded ">Главная</li>
+        </a>
+        <a href="{% url 'profile_data' %}" >
+            <li class="{% if request.path == '/profile-data/' or request.path == '/profile-data-edit/' %} bg-light_ {% endif %} my-2 text-dark px-2 py-1 border rounded">Личные данные</li>
+        </a>
+        <a href="{% url 'profile_favourite' %}" >
+            <li class="{% if request.path == '/profile-favourite/' %} bg-light_ {% endif %} my-2 text-dark px-2 py-1 border rounded">Избранное</li>
+        </a>
+        <a href="{% url 'likePages' %}" >
+            <li class="{% if request.path == '/likePages/' %} bg-light_ {% endif %} my-2 text-dark px-2 py-1 border rounded">Likes</li>
+        </a>
+    </ul>
+</div>

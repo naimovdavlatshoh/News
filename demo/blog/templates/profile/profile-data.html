@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %} {% endblock %}
+
+{% block content %}
+
+<div  class="pt-5 pb-3 profile-h  bg-light_">
+    <div class="container profile d-flex justify-content-between ">
+        <div class="border left-side bg-white rounded p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="px-2">Личные данные</h3>
+                <a href='{% url "profile_data_edit" %}' class="btn btn-primary btn-sm"><i class="fas fa-edit"></i> Изменить</a>
+            </div>
+            <hr>
+            <div class="container">
+                <div class="row row-cols-lg-3">
+                    <div class="p-2">
+                        <label class='label' for="">Логин</label>
+                        <input type="text" readonly value="{{request.user.username}}" class="form-control ">
+                    </div>
+                    <div class="p-2">
+                        <label class='label' for="">Имя</label>
+                        <input type="text" readonly value="{{request.user.first_name}}" class="form-control ">
+                    </div>
+                    <div class="p-2">
+                        <label class='label' for="">Фамилия</label>
+                        <input type="text" readonly value="{{request.user.last_name}}" class="form-control ">
+                    </div>
+                    <div class="p-2">
+                        <label class='label' for="">Email</label>
+                        <input type="email" readonly value="{{request.user.email}}" class="form-control ">
+                    </div>
+                    <div class="p-2">
+                        <label class='label' for="">Дата рождения</label>
+                        <input type="email" readonly value="{{profile.date}}" class="form-control ">
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'profile/right-sidebar.html' %}
+    </div>
+</div>
+
+{% endblock %}

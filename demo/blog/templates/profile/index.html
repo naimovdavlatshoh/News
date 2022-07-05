@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %} {% endblock %}
+
+{% block content %}
+
+<div  class="pt-5 pb-3 bg-light_ profile-h">
+    <div class="container profile d-flex justify-content-between ">
+        <div class="border left-side bg-white rounded p-3">
+            <h3>Добро пожаловать, {{request.user.username}}.</h3>
+            <hr>
+        </div>
+        {% include 'profile/right-sidebar.html' %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} {% endblock %}
+
+{% block content %}
+    <div class="container page-h mt-4">
+        <h2>Результат по поску: {{query}}</h2>
+        <hr>
+        <div class="row row-cols-lg-4">
+            {% for post in posts %}
+            <div class="p-3">
+                <div class="card" >
+                    {% if post.image.url != None %}
+                        <img src="{{post.image.url}}" style='height: 120px; object-fit: cover;' class="card-img-top" alt="...">
+                    {% else %}
+                        <img src="{% static 'images/photo.jpg' %}" style='height: 120px; object-fit: cover;' class="card-img-top" alt="...">
+                    {% endif %}
+                    <div class="card-body">
+                      <h6 class="card-title">
+                        <div class="mb-2">
+                            <a  href="">#{{post.category.title}}</a>
+                        </div>
+                        {% if post.title|length > 15 %}                                     
+                            {{ post.title|slice:':15' }}...
+                        {% else %}
+                            {{post.title}}
+                        {% endif %}
+                      </h5>
+                      <p class="card-text">
+                        {% if post.body|length > 35 %}
+                           
+                            {{ post.body|slice:":35" }}...
+                            
+                        {% else %}
+                            {{post.body}}
+                          
+                        {% endif %}
+                      </p>
+                      <a href="{% url 'post_detail' post.id %}" class="btn btn-sm btn-primary">Посмотреть</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

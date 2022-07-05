@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Register {% endblock %}
+
+{% block content %}
+    <div class="container my-5">
+        <div class="">
+            <form action="{% url 'signup' %}" class="register border rounded mx-auto" method="POST">
+                {% csrf_token %}
+                <h2 class="border-bottom px-3 py-2 text-center">Регистрация</h2>
+                <div class="p-3">
+                    {% for field in form %}
+                <p>
+                    {{ field.label_tag }}<br>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small style="color: grey">{{ field.help_text }}</small>
+                    {% endif %}
+    
+                </p>
+                {% endfor %}
+                </div>
+        
+                <button class="btn btn-primary d-block mx-auto">Зарегистрироваться</button>
+                <div class="errors mt-4">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p class="alert alert-danger">
+                                {{message}}
+                            </p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+    
+    
+            </form>
+        </div>
+        
+    </div>
+{% endblock %}

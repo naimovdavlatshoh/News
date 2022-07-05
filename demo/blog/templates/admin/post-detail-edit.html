@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Meny {% endblock %}
+{% block content %}
+<div class="bg-light_">
+    <div class="container py-5 page-h">
+        <div class="d-flex justify-content-between align-items-start">
+            <div class="leftside bg-white rounded border p-3">
+                <h2>Редактирование поста</h2>
+                <hr/>
+                <form action="{% url 'post_edit' post.id %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label class="label-2 mb-2">Загаловок</label>
+                    <input value="{{post.title}}" name="title" type="text" class="form-control mb-3" />
+                    <label class="label-2 mb-2">Текст</label>
+                    <textarea name="body" rows="10" type="text" class="form-control mb-3">{{post.body}}
+                    </textarea>
+                    {% if post.image.url != None %}
+                        <img src="{{post.image.url}}"  class="rounded my-3 post-img shadow" alt="...">
+                    {% else %}
+                        <img src="{% static 'images/photo.jpg' %}" class="rounded my-3 post-img shadow" alt="...">
+                    {% endif %}
+                    <br>
+                    <label class="label-2 mb-2">Фото</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                        </div>
+                        <div class="custom-file">
+                          <input type="file" name="image" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                          <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                        </div>
+                      </div>
+                    <label class="label-2 mb-2">Категория: {{post.category.title}}</label>
+                    <select name="category" class="form-control">
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.title }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="d-flex justify-content-center">
+                        <button class="btn btn-primary mt-4 w-25 mx-2  ">Сохранить</button>
+                        <button onclick="modalBtn()" type="button" class="btn btn-danger mt-4 w-25 mx-2  ">Удалить</button>
+                    </div>
+                    <div class="modal " tabindex="-1">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Предупреждение</h5>
+                              <button onclick="modalBtn()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <p>Вы точно хотите удалить этот пост?</p>
+                            </div>
+                            <div class="modal-footer">
+                              <button  onclick="modalBtn()" type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                              <a href="{% url 'remove_post' post.id %}"  class="btn btn-danger">Удалить</a>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </form>
+
+    
+            </div>
+            {% include 'admin/rightside.html' %}
+        </div>
+    </div>
+</div>
+
+<script>
+    let modal = document.querySelector('.modal')
+
+    let modalBtn = ()=> {
+        modal.classList.toggle('d-block')
+    }
+</script>
+
+{% endblock %}
+
+

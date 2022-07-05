@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Index {% endblock %}
+{% block content %}
+<div class="container">
+    <div class=" py-5 page-h">
+        {% if message %}
+            <p class="alert alert-success">
+                {{message}}
+            </p>
+        {% endif %}
+        <h2 class="">Последние новости</h2>
+        <hr>
+        <div class="row row-cols-lg-4">
+            {% for post in posts %}
+            <div class="p-3">
+                <div class="card" >
+                    {% if post.image.url != None %}
+                        <img src="{{post.image.url}}" style='height: 150px; object-fit: cover;' class="card-img-top" alt="...">
+                    {% else %}
+                        <img src="{% static 'images/photo.jpg' %}" style='height: 150px; object-fit: cover;' class="card-img-top" alt="...">
+                    {% endif %}
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <div class="mb-2">
+                            <a  href="">#{{post.category.title}}</a>
+                        </div>
+                        {% if post.title|length > 17 %}                                     
+                            {{ post.title|slice:':17' }}...
+                        {% else %}
+                            {{post.title}}
+                        {% endif %}
+                      </h5>
+                      <p class="card-text">
+                        {% if post.body|length > 40 %}
+                            {{ post.body|safe|slice:':30' }}...
+                        {% else %}
+                        {{post.body|safe}}
+                        {% endif %}
+                      </p>
+                      {% if request.user.is_authenticated %}  
+                      <a href="{% url 'post_detail' post.id %}" class="btn btn-primary">Посмотреть</a>
+                      {% else %}
+                      <a href="{% url 'signin' %}" class="btn btn-primary">Посмотреть</a>
+                      {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

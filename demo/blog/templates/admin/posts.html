@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Meny {% endblock %}
+
+{% block content %}
+<div class="bg-light_">
+    <div class="container py-5 page-h">
+        <div class="d-flex justify-content-between align-items-start">
+            <form action="{% url 'remove_posts' %}" method="POST" class="bg-white leftside rounded border p-3">
+                {% csrf_token %}
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Посты</h2>
+                    <a class="btn btn-primary btn-sm" href="{% url 'create' %}"><i class="fas fa-plus"></i> Добавить пост</a>
+                </div>
+                <hr/>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="">
+                        <label for="">Действие:</label>
+                        <select name="answer" id="" class="mb-3  form-control form-control-sm">
+                            <option  value="no">--------</option>
+                            <option  value="delete">Удалить выбранные посты</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary btn-sm">Выполнить действие</button>
+                </div>
+                <table class="table mt-3">
+                    <thead class="thead-dark">
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Category</th>
+                        
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for post in posts %}
+                        <tr>
+                            <th scope="row">
+                                
+                                <div class="btn btn-light btn-sm">
+                                    <input name="items" value="{{post.id}}" type="checkbox" class=""  id="">
+                                </div>
+                                
+                            </th>
+                            <td class="d-flex align-items-center">
+                                {% if post.title|length > 40 %}
+                                    <a href="{% url 'post_edit' post.id %}">{{post.title|slice:':40'}}...</a>
+                                {% else %}
+                                    <a href="{% url 'post_edit' post.id %}">{{post.title}}</a>
+                                {% endif %}
+                            </td>
+                            <td>{{post.category.title}}</td>
+                            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+              
+            </form>
+                {% include 'admin/rightside.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

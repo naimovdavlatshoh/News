@@ -1,0 +1,15 @@
+<div class="rightside bg-white border rounded p-3">
+    <h4>Menu</h4>
+    <hr>
+    <ul class="m-0 p-0">
+        <a href="{% url 'profile_admin1' %}">
+            <li class="{% if request.path == '/profile-admin1/' %} bg-light_  {% endif %}">Главная</li>
+        </a>
+        <a href="{% url 'posts' %}">
+            <li class="{% if request.path == '/posts/' %} bg-light_  {% endif %}">Посты</li>
+        </a>
+        <a href="{% url 'categories' %}">
+            <li class="{% if request.path == '/categories/' %} bg-light_  {% endif %}">Категории</li>
+        </a>
+    </ul>
+</div>

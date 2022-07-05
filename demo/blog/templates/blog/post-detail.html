@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Post-detail {% endblock %}
+{% block content %}
+    <div class="container w-50">
+        <div class="py-5">
+            <h2>{{post.title}}</h2>
+            <hr>
+            {% if post.image.url != None %}
+                        <img src="{{post.image.url}}" style=' object-fit: cover;' class="card-img-top" alt="...">
+                    {% else %}
+                        <img src="{% static 'images/photo.jpg' %}" style=' object-fit: cover;' class="card-img-top" alt="...">
+                    {% endif %}
+            <p class="mt-4">{{post.body|safe}}</p>
+            <hr>
+            {% if request.user.is_authenticated %}
+                <div class="d-flex mb-3">
+                    <a href="{% url 'like' post.id %}" class="btn btn-primary">
+                        <i class="far fa-thumbs-up"></i>&nbsp;
+                        {% if post.post_likes %}
+                            {{post.post_likes.count}}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </a>
+                    <a href="{% url 'dislike' post.id %}" class="btn btn-danger ml-3">
+                        <i class="far fa-thumbs-down"></i>&nbsp;
+                        {% if post.post_dislikes %}
+                            {{post.post_dislikes.count}}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </a>
+                </div>
+            {% endif %}
+            <div class="mb-5 d-flex justify-content-between">
+                <h6>{{post.date}}</h6>
+                {% if status %}
+                    <button disabled class="btn btn-secondary">Добавлено</button>
+                {% else %}
+                    <a href="{% url 'add_favourite' post.id %}" class="btn btn-sm btn-warning"> Добавить в избранное <i class="fas fa-bookmark"></i></a>
+                {% endif %}
+            </div>
+
+            <h3>Комментарии:</h3>
+            <hr>
+            {% if request.user.is_authenticated %}
+            <form action="{% url 'comment' post.id %}" method="POST"> 
+                {% csrf_token %}
+                <textarea placeholder="" name="text" rows="7" class="form-control"></textarea>
+                <button class="btn btn-primary d-block ml-auto mt-3">Добавить</button>
+            </form>
+
+            {% else %}
+            <div class="alert alert-danger">
+                <a href="{% url 'profile' %}" class="">Зарегайся, потом можешь оставить свой ни к кому не нужный коммент</a>
+            </div>
+            {% endif %}
+            <hr>
+            {% for comment in comments %}
+                {% if comment.user == request.user %}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5>{{comment.user.username}}</h5>
+                        {% if request.user.is_staff %}
+                            <a href="{% url 'remove_comment' comment.id %}" class="btn btn-secondary btn-sm">Удалить</a>
+                        {% else %}
+                            <a href="{% url 'remove_comment' comment.id %}" class="btn btn-secondary btn-sm">Удалить</a>
+                        {% endif %}
+                    </div>
+                    <p>{{comment.text}}</p>
+                    <h6>{{comment.date}}</h6>
+                    <hr>
+                {% else %}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5>{{comment.user.username}}</h5>
+                        {% if request.user.is_staff %}
+                            <a href="{% url 'remove_comment' comment.id %}" class="btn btn-secondary btn-sm"><i class="fas fa-trash"></i></a>
+                        {% endif %}
+                    </div>
+                    <p>{{comment.text}}</p>
+                    <h6>{{comment.date}}</h6>
+                    <hr>
+                {% endif %}
+            {% endfor %}
+            
+        </div>
+    </div>
+{% endblock %}

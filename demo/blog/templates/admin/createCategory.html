@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Meny {% endblock %}
+{% block content %}
+<div class="bg-light_">
+    <div class="container page-h">
+        <div class="py-5 ">
+            <div class="d-flex justify-content-between align-items-start">
+                <div class="leftside bg-white rounded border p-3">
+                    <h2>Создание категори</h2>
+                    <hr />
+                    <form action="{% url 'createCategory' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label class="mb-2 label-2">Категория</label>
+                          <input required name="title" type="text" class="form-control mb-3" />
+                        <button class="btn btn-primary mt-4 mx-auto d-block w-25">Создать</button>
+                    </form>
+                </div>
+                    {% include 'admin/rightside.html' %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

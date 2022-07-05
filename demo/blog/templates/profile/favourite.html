@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %} {% endblock %}
+{% load static %}
+{% block content %}
+
+<div  class="pt-5 pb-3 profile-h bg-light_">
+    <div class="container profile d-flex justify-content-between ">
+        <div class="border left-side bg-white rounded p-3">
+            <h3>Избранное</h3>
+            <hr>
+            <div class="row row-cols-lg-3">
+                {% for favourite in favourites %}
+                <div class="p-3">
+                    <div class="card" >
+                        {% if favourite.post.image.url != None %}
+                            <img src="{{favourite.post.image.url}}" style='height: 150px; object-fit: cover;' class="card-img-top" alt="...">
+                        {% else %}
+                            <img src="{% static 'images/photo.jpg' %}" style='height: 150px; object-fit: cover;' class="card-img-top" alt="...">
+                        {% endif %}
+                        <div class="card-body">
+                          <h5 class="card-title">
+                            <div class="mb-2">
+                                <a  href="">#{{favourite.post.category.title}}</a>
+                            </div>
+                            {% if favourite.post.title|length > 17 %}                                     
+                                {{ favourite.post.title|slice:':17' }}...
+                            {% else %}
+                                {{favourite.post.title}}
+                            {% endif %}
+                          </h5>
+                          <p class="card-text">
+                            {% if favourite.post.body|length > 50 %}
+                                {{ favourite.post.body|safe|slice:':45' }}...
+                            {% else %}
+                            {{favourite.post.body|safe}}
+                            {% endif %}
+                          </p>
+                          <a href="{% url 'post_detail' favourite.post.id %}" class="btn btn-primary">Посмотреть</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% include 'profile/right-sidebar.html' %}
+    </div>
+</div>
+
+{% endblock %}
